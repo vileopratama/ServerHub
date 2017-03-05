@@ -52,10 +52,10 @@ namespace ServerHub.Addons.Replication
             BackgroundWorker backgroundWorker1 = new BackgroundWorker();
             if (!backgroundWorker1.IsBusy)
             {
-                TotalRecords = this.GetTotalRecords("AR.dbo.PARTNER");
-                TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
-                TotalRecords += this.GetTotalRecords("AR.dbo.ART01A");
-                TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
+                //TotalRecords = this.GetTotalRecords("AR.dbo.PARTNER");
+                //TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
+                TotalRecords = this.GetTotalRecords("AR.dbo.ART01A");
+                //TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
                 
                 Max = TotalRecords;
                 i = 0;
@@ -223,7 +223,9 @@ namespace ServerHub.Addons.Replication
             try
             {
                 DB.SqlConnect();
-                String CmdString = "SELECT *,CASE WHEN TGL_PAJAK IS NULL THEN TGL ELSE TGL_PAJAK END AS TGL_PAJAK2 FROM AR.dbo.ART01A";
+                String CmdString = "SELECT *,CASE WHEN TGL_PAJAK IS NULL THEN TGL ELSE TGL_PAJAK END AS TGL_PAJAK2," +
+                "CASE WHEN TGLINPUT IS NULL THEN TGL ELSE TGLINPUT END AS TGLINPUT2," +
+                "CASE WHEN TGLPOTONG IS NULL THEN TGL ELSE TGLPOTONG END AS TGLPOTONG2 FROM AR.dbo.ART01A";
                 cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
 
@@ -240,8 +242,8 @@ namespace ServerHub.Addons.Replication
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_ART01A(FAKTUR,TGL,KONTAN,CUST,SLM,TERM,MUKA,DISC1,NDISC1,PPN,MTR,NETTO,KET,TOTAL,F_PAJAK,TGL_PAJAK,NCUST,WIL,SO,SATUAN,POST,VLT,TUKAR,JTGL,NPPN,POT,BAYAR,DEBET,KREDIT,BANK,TOTAL_DB_GL,TOTAL_KREDIT_GL,PPN_RATE,USERNAME,TGLINPUT,NO_KONTRAK,TGLPOTONG)" +
-                                     "VALUES(@FAKTUR,@TGL,@KONTAN,@CUST,@SLM,@TERM,@MUKA,@DISC1,@NDISC1,@PPN,@MTR,@NETTO,@KET,@TOTAL,@F_PAJAK,@TGL_PAJAK,@NCUST,@WIL,@SO,@SATUAN,@POST,@VLT,@TUKAR,@JTGL,@NPPN,@POT,@BAYAR,@DEBET,@KREDIT,@BANK,@TOTAL_DB_GL,@TOTAL_KREDIT_GL,@PPN_RATE,@USERNAME,@TGLINPUT,@NO_KONTRAK,@TGLPOTONG)";
+                            DB.SQL = "INSERT INTO dbo_ART01A(FAKTUR,TGL,KONTAN,CUST,SLM,TERM,MUKA,DISC1,NDISC1,PPN,MTR,NETTO,KET,TOTAL,F_PAJAK,TGL_PAJAK,NCUST,WIL,SO,SATUAN,POST,VLT,TUKAR,JTGL,NPPN,POT,BAYAR,DEBET,KREDIT,BANK,TOTAL_DEBET_GL,TOTAL_KREDIT_GL,PPN_RATE,USERNAME,TGLINPUT,NO_KONTRAK,TGLPOTONG)" +
+                                     "VALUES(@FAKTUR,@TGL,@KONTAN,@CUST,@SLM,@TERM,@MUKA,@DISC1,@NDISC1,@PPN,@MTR,@NETTO,@KET,@TOTAL,@F_PAJAK,@TGL_PAJAK,@NCUST,@WIL,@SO,@SATUAN,@POST,@VLT,@TUKAR,@JTGL,@NPPN,@POT,@BAYAR,@DEBET,@KREDIT,@BANK,@TOTAL_DEBET_GL,@TOTAL_KREDIT_GL,@PPN_RATE,@USERNAME,@TGLINPUT,@NO_KONTRAK,@TGLPOTONG)";
                             DB.MySqlConnect();
                             DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
                             DB.MySqlCmd.Parameters.Add("@FAKTUR", MySqlDbType.VarChar, 255).Value = reader["FAKTUR"].ToString();
@@ -254,26 +256,33 @@ namespace ServerHub.Addons.Replication
                             DB.MySqlCmd.Parameters.Add("@DISC1", MySqlDbType.Double).Value = reader["DISC1"].ToString();
                             DB.MySqlCmd.Parameters.Add("@NDISC1", MySqlDbType.Double).Value = reader["NDISC1"].ToString();
                             DB.MySqlCmd.Parameters.Add("@PPN", MySqlDbType.Double).Value = reader["PPN"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@MTR", MySqlDbType.Double).Value = reader["MTR"].ToString();
                             DB.MySqlCmd.Parameters.Add("@NETTO", MySqlDbType.Double).Value = reader["NETTO"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KET", MySqlDbType.MediumText).Value = reader["KET"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TOTAL", MySqlDbType.Double).Value = reader["TOTAL"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@F_PAJAK", MySqlDbType.VarChar, 10).Value = reader["F_PAJAK2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@F_PAJAK", MySqlDbType.VarChar, 10).Value = reader["F_PAJAK"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TGL_PAJAK", MySqlDbType.Datetime).Value = Convert.ToDateTime(reader["TGL_PAJAK2"].ToString());
                             DB.MySqlCmd.Parameters.Add("@NCUST", MySqlDbType.VarChar, 255).Value = reader["NCUST"].ToString();
                             DB.MySqlCmd.Parameters.Add("@WIL", MySqlDbType.VarChar, 3).Value = reader["WIL"].ToString();
                             DB.MySqlCmd.Parameters.Add("@SO", MySqlDbType.VarChar, 10).Value = reader["SO"].ToString();
                             DB.MySqlCmd.Parameters.Add("@SATUAN", MySqlDbType.VarChar, 1).Value = reader["SATUAN"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@POST", MySqlDbType.VarChar, 1).Value = reader["POS"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@POST", MySqlDbType.VarChar, 1).Value = reader["POST"].ToString();
                             DB.MySqlCmd.Parameters.Add("@VLT", MySqlDbType.VarChar, 3).Value = reader["VLT"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TUKAR", MySqlDbType.Double).Value = reader["TUKAR"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@JTGL", MySqlDbType.Datetime).Value = Convert.ToDateTime(reader["JTGL"].ToString());
-                            //,,,,,@TOTAL_DB_GL,@TOTAL_KREDIT_GL,@PPN_RATE,@USERNAME,@TGLINPUT,@NO_KONTRAK,@TGLPOTONG
+                            DB.MySqlCmd.Parameters.Add("@JTGL", MySqlDbType.DateTime).Value = Convert.ToDateTime(reader["JTGL"].ToString());
                             DB.MySqlCmd.Parameters.Add("@NPPN", MySqlDbType.Double).Value = reader["NPPN"].ToString();
                             DB.MySqlCmd.Parameters.Add("@POT", MySqlDbType.Double).Value = reader["POT"].ToString();
                             DB.MySqlCmd.Parameters.Add("@BAYAR", MySqlDbType.Double).Value = reader["BAYAR"].ToString();
                             DB.MySqlCmd.Parameters.Add("@DEBET", MySqlDbType.Double).Value = reader["DEBET"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KREDIT", MySqlDbType.Double).Value = reader["KREDIT"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@BANK", MySqlDbType.Double).Value = reader["KREDIT"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@BANK", MySqlDbType.Double).Value = reader["BANK"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TOTAL_DEBET_GL", MySqlDbType.Double).Value = reader["TOTAL_DEBET_GL"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TOTAL_KREDIT_GL", MySqlDbType.Double).Value = reader["TOTAL_KREDIT_GL"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@PPN_RATE", MySqlDbType.Double).Value = reader["PPN_RATE"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@USERNAME", MySqlDbType.VarChar, 10).Value = reader["USERNAME"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TGLINPUT", MySqlDbType.VarChar, 10).Value = Convert.ToDateTime(reader["TGLINPUT2"].ToString());
+                            DB.MySqlCmd.Parameters.Add("@NO_KONTRAK", MySqlDbType.VarChar, 30).Value = reader["NO_KONTRAK"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TGLPOTONG", MySqlDbType.VarChar, 10).Value = Convert.ToDateTime(reader["TGLPOTONG2"].ToString());
                             DB.MySqlCmd.CommandType = CommandType.Text;
                             DB.MySqlCmd.ExecuteNonQuery();
                         }
@@ -385,10 +394,10 @@ namespace ServerHub.Addons.Replication
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            objPARTNER(sender, e);
-            objKLIEN(sender, e);
+            //objPARTNER(sender, e);
+            //objKLIEN(sender, e);
             objART01A(sender, e);
-            objART01B(sender,e);   
+            //objART01B(sender,e);   
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
