@@ -233,7 +233,10 @@ namespace ServerHub.Addons.Replication
                                    " CASE WHEN TorTgl IS NULL THEN GETDATE() ELSE TorTgl END AS TorTgl2, " +
                                    " CASE WHEN TorTglKembali IS NULL THEN GETDATE() ELSE TorTglKembali END AS TorTglKembali2, " +
                                    " CASE WHEN Periode IS NULL THEN GETDATE() ELSE Periode END AS Periode2, " +
-                                   " CASE WHEN TGLKEMBALI IS NULL THEN GETDATE() ELSE TGLPROPOSAL END AS TGLKEMBALI2 " +
+                                   " CASE WHEN TGLKEMBALI IS NULL THEN GETDATE() ELSE TGLPROPOSAL END AS TGLKEMBALI2, " +
+                                   " CASE WHEN NILAI IS NULL THEN 0 ELSE NILAI END AS NILAI2, " +
+                                   " CASE WHEN TORNILAI IS NULL THEN 0 ELSE TORNILAI END AS TORNILAI2 ," +
+                                   " CASE WHEN NILAIOPE IS NULL THEN 0 ELSE NILAIOPE END AS NILAIOPE2 " +
                                    " FROM AR.dbo.PROPOSALHEAD";
                 cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader(); 
@@ -262,7 +265,7 @@ namespace ServerHub.Addons.Replication
                             DB.MySqlCmd.Parameters.Add("@IDProposal", MySqlDbType.VarChar, 100).Value = reader["IDProposal"].ToString();
                             DB.MySqlCmd.Parameters.Add("@NoProposal", MySqlDbType.VarChar, 100).Value = reader["NoProposal"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TglProposal", MySqlDbType.VarChar).Value = reader["TglProposal2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@Nilai", MySqlDbType.Double).Value =  reader["Nilai"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Nilai", MySqlDbType.Double).Value = reader["NILAI2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@PrdPartnerD", MySqlDbType.VarChar).Value = reader["PrdPartnerD2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@PrdPartnerS", MySqlDbType.VarChar).Value = reader["PrdPartnerS2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@PrdKapD", MySqlDbType.VarChar).Value = reader["PrdKapD2"].ToString();
@@ -285,11 +288,11 @@ namespace ServerHub.Addons.Replication
                             DB.MySqlCmd.Parameters.Add("@KursID", MySqlDbType.VarChar, 255).Value = reader["KursID"].ToString();
                             DB.MySqlCmd.Parameters.Add("@Torno", MySqlDbType.VarChar, 255).Value = reader["Torno"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TorTgl", MySqlDbType.VarChar).Value = reader["TorTgl2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@Tornilai", MySqlDbType.Double).Value = reader["Tornilai"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Tornilai", MySqlDbType.Double).Value = reader["TORNILAI2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@TorTglKembali", MySqlDbType.VarChar).Value = reader["TorTglKembali2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@StatusTor", MySqlDbType.VarChar, 255).Value = reader["StatusTor"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KursTOR", MySqlDbType.VarChar, 5).Value = reader["KursTOR"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@nilaiOPE", MySqlDbType.Double).Value = reader["nilaiOPE"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@nilaiOPE", MySqlDbType.Double).Value = reader["NILAIOPE2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@kursOPE", MySqlDbType.VarChar, 5).Value = reader["kursOPE"].ToString();
                             DB.MySqlCmd.Parameters.Add("@Periode", MySqlDbType.VarChar).Value = reader["Periode"].ToString();
                             DB.MySqlCmd.Parameters.Add("@tglStugas", MySqlDbType.VarChar, 255).Value = reader["tglStugas"].ToString();
