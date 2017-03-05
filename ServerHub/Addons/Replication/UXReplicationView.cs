@@ -253,24 +253,27 @@ namespace ServerHub.Addons.Replication
                         try
                         {
                             DB.SQL = "INSERT INTO dbo_PROPOSALHEAD(IDProposal,NoProposal,TglProposal,Nilai,PrdPartnerD,PrdPartnerS,PrdKapD,PrdKapS,TglKembali,Referal,KodeBank,KodePartner,KodeKlien,KodeNegara,NmPartner,NmKlien,KodeKlien2,KodeNegara2,KodeJasa,KodeJenisPT,Status,StatusBDO,StatusClien,KursID,Torno,TorTgl,Tornilai,TorTglKembali,StatusTor,KursTOR,nilaiOPE,kursOPE,Periode,tglStugas)" +
-                                     "               VALUES(@IDProposal,@NoProposal,@TglProposal,@Nilai,@PrdPartnerD,@PrdPartnerS,@PrdKapD,@PrdKapS,@TglKembali,@Referal,@KodeBank,@KodePartner,@KodeKlien,@KodeNegara,@NmKlien,@KodeKlien2,@KodeNegara2,@KodeJasa,@KodeJenisPT,@Status,@StatusBDO,@StatusClien,@KursID,@Torno,@TorTgl,@Tornilai,@TorTglKembali,@StatusTor,@KursTOR,@nilaiOPE,@kursOPE,@Periode,@tglStugas)";
+                                     "VALUES(@IDProposal,@NoProposal,@TglProposal,@Nilai,@PrdPartnerD,@PrdPartnerS,@PrdKapD,@PrdKapS,@TglKembali,@Referal,@KodeBank,@KodePartner,@KodeKlien,@KodeNegara,@NmPartner,@NmKlien,@KodeKlien2,@KodeNegara2,@KodeJasa,@KodeJenisPT,@Status,@StatusBDO,@StatusClien,@KursID,@Torno,@TorTgl,@Tornilai,@TorTglKembali,@StatusTor,@KursTOR,@nilaiOPE,@kursOPE,@Periode,@tglStugas)";
+
                             
+
                             DB.MySqlConnect();
                             DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
                             DB.MySqlCmd.Parameters.Add("@IDProposal", MySqlDbType.VarChar, 100).Value = reader["IDProposal"].ToString();
                             DB.MySqlCmd.Parameters.Add("@NoProposal", MySqlDbType.VarChar, 100).Value = reader["NoProposal"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@TglProposal", MySqlDbType.Datetime).Value = reader["TglProposal2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@Nilai", MySqlDbType.Double).Value =  Double.Parse(reader["Nilai"].ToString());
-                            DB.MySqlCmd.Parameters.Add("@PrdPartnerD", MySqlDbType.Datetime).Value = reader["PrdPartnerD2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@PrdPartnerS", MySqlDbType.Datetime).Value = reader["PrdPartnerS2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@PrdKapD", MySqlDbType.Datetime).Value = reader["PrdKapD2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@PrdKapS", MySqlDbType.Datetime).Value = reader["PrdKapS2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@TglKembali", MySqlDbType.Datetime).Value = reader["TglKembali"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TglProposal", MySqlDbType.VarChar).Value = reader["TglProposal2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Nilai", MySqlDbType.Double).Value =  reader["Nilai"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@PrdPartnerD", MySqlDbType.VarChar).Value = reader["PrdPartnerD2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@PrdPartnerS", MySqlDbType.VarChar).Value = reader["PrdPartnerS2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@PrdKapD", MySqlDbType.VarChar).Value = reader["PrdKapD2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@PrdKapS", MySqlDbType.VarChar).Value = reader["PrdKapS2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TglKembali", MySqlDbType.VarChar).Value = reader["TglKembali"].ToString();
                             DB.MySqlCmd.Parameters.Add("@Referal", MySqlDbType.VarChar, 255).Value = reader["Referal"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodeBank", MySqlDbType.VarChar, 255).Value = reader["KodeBank"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodePartner", MySqlDbType.VarChar, 255).Value = reader["KodePartner"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodeKlien", MySqlDbType.VarChar, 255).Value = reader["KodeKlien"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodeNegara", MySqlDbType.VarChar, 255).Value = reader["KodeNegara"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@NmPartner", MySqlDbType.VarChar, 255).Value = reader["NmPartner"].ToString();
                             DB.MySqlCmd.Parameters.Add("@NmKlien", MySqlDbType.VarChar, 255).Value = reader["NmKlien"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodeKlien2", MySqlDbType.VarChar, 255).Value = reader["KodeKlien2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KodeNegara2", MySqlDbType.VarChar, 255).Value = reader["KodeNegara2"].ToString();
@@ -281,15 +284,16 @@ namespace ServerHub.Addons.Replication
                             DB.MySqlCmd.Parameters.Add("@StatusClien", MySqlDbType.VarChar, 255).Value = reader["StatusClien"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KursID", MySqlDbType.VarChar, 255).Value = reader["KursID"].ToString();
                             DB.MySqlCmd.Parameters.Add("@Torno", MySqlDbType.VarChar, 255).Value = reader["Torno"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@TorTgl", MySqlDbType.Datetime).Value = reader["TorTgl2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TorTgl", MySqlDbType.VarChar).Value = reader["TorTgl2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@Tornilai", MySqlDbType.Double).Value = reader["Tornilai"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@TorTglKembali", MySqlDbType.Datetime).Value = reader["TorTglKembali2"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@TorTglKembali", MySqlDbType.VarChar).Value = reader["TorTglKembali2"].ToString();
                             DB.MySqlCmd.Parameters.Add("@StatusTor", MySqlDbType.VarChar, 255).Value = reader["StatusTor"].ToString();
                             DB.MySqlCmd.Parameters.Add("@KursTOR", MySqlDbType.VarChar, 5).Value = reader["KursTOR"].ToString();
                             DB.MySqlCmd.Parameters.Add("@nilaiOPE", MySqlDbType.Double).Value = reader["nilaiOPE"].ToString();
                             DB.MySqlCmd.Parameters.Add("@kursOPE", MySqlDbType.VarChar, 5).Value = reader["kursOPE"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@Periode", MySqlDbType.Datetime).Value = reader["Periode"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Periode", MySqlDbType.VarChar).Value = reader["Periode"].ToString();
                             DB.MySqlCmd.Parameters.Add("@tglStugas", MySqlDbType.VarChar, 255).Value = reader["tglStugas"].ToString();
+                            
                             DB.MySqlCmd.CommandType = CommandType.Text;
                             DB.MySqlCmd.ExecuteNonQuery();
                         }
