@@ -55,9 +55,9 @@ namespace ServerHub.Addons.Replication
                 
                 //TotalRecords = this.GetTotalRecords("AR.dbo.PARTNER");
 				//TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
-				TotalRecords += this.GetTotalRecords("AR.dbo.ProposalHead");
-				//TotalRecords += this.GetTotalRecords("AR.dbo.ART01A");
-				//TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
+				//TotalRecords += this.GetTotalRecords("AR.dbo.ProposalHead");
+				// += this.GetTotalRecords("AR.dbo.ART01A");
+				TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
 				//TotalRecords += this.GetTotalRecords("KB.dbo.KBT01C");
 
                 Max = TotalRecords;
@@ -618,9 +618,9 @@ namespace ServerHub.Addons.Replication
         {
 			//this.objPARTNER(sender, e);
 			//this.objKLIEN(sender, e);
-			this.objPROPOSALHEAD(sender, e);
+			//this.objPROPOSALHEAD(sender, e);
 			//this.objART01A(sender, e);
-			//this.objART01B(sender,e);
+			this.objART01B(sender,e);
 			//this.objKBT01C(sender, e);   
         }
 
