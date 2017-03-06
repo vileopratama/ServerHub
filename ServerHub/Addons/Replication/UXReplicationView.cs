@@ -52,12 +52,13 @@ namespace ServerHub.Addons.Replication
             BackgroundWorker backgroundWorker1 = new BackgroundWorker();
             if (!backgroundWorker1.IsBusy)
             {
-                //TotalRecords = this.GetTotalRecords("AR.dbo.ProposalHead");
+                
                 //TotalRecords = this.GetTotalRecords("AR.dbo.PARTNER");
-                //TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
-                TotalRecords += this.GetTotalRecords("AR.dbo.ART01A");
-                //TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
-                //TotalRecords += this.GetTotalRecords("KB.dbo.KBT01C");
+				//TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
+				TotalRecords += this.GetTotalRecords("AR.dbo.ProposalHead");
+				//TotalRecords += this.GetTotalRecords("AR.dbo.ART01A");
+				//TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
+				//TotalRecords += this.GetTotalRecords("KB.dbo.KBT01C");
 
                 Max = TotalRecords;
                 i = 0;
@@ -91,11 +92,11 @@ namespace ServerHub.Addons.Replication
                         e.Result = i;
                         Text = "Records " + i + " From " + Max;
                         //Delete Table ART01A
-                        DB.MySqlDelete("dbo_PARTNER", "KODEPARTNER", reader["KodePartner"].ToString());
+                        DB.MySqlDelete("dbo_Partner", "KodePartner", reader["KodePartner"].ToString());
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_PARTNER(IDPARTNER,KODEPARTNER,NAMAPARTNER,PASSWORDPARTNER)" +
+                            DB.SQL = "INSERT INTO dbo_Partner(IDPartner,KodePartner,NamaPartner,PasswordPartner)" +
                                      "VALUES(@ID,@KODE,@NAMA,@PASSWORD)";
                             DB.MySqlConnect();
                             DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
@@ -160,7 +161,7 @@ namespace ServerHub.Addons.Replication
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_Klien(IDKLIEN,KODEKLIEN,NAMAKLIEN,TglAktif,KODEJASA,KodeIndukPT,ALAMAT1,ALAMAT2,KODEPOS,TELP,EMAIL,CP,STATUS,KODEJENISPT,FAX,ALAMAT3,NMKLIENSURAT,ALAMATSURAT1,ALAMATSURAT2,ALAMATSURAT3,ALAMATSURAT4,ALAMAT4)" +
+                            DB.SQL = "INSERT INTO dbo_Klien(IDKlien,KodeKlien,NamaKlien,TglAktif,KodeJasa,KodeIndukPT,Alamat1,Alamat2,KodePos,Telp,Email,CP,Status,KodeJenisPT,Fax,Alamat3,NMklienSurat,Alamatsurat1,Alamatsurat2,Alamatsurat3,Alamatsurat4,Alamat4)" +
                                      "               VALUES(@IDKLIEN,@KODEKLIEN,@NAMAKLIEN,@TglAktif,@KODEJASA,@KodeIndukPT,@ALAMAT1,@ALAMAT2,@KODEPOS,@TELP,@EMAIL,@CP,@STATUS,@KODEJENISPT,@FAX,@ALAMAT3,@NMKLIENSURAT,@ALAMATSURAT1,@ALAMATSURAT2,@ALAMATSURAT3,@ALAMATSURAT4,@ALAMAT4)";
                             //MessageBox.Show(DB.SQL);
                             DB.MySqlConnect();
@@ -251,11 +252,11 @@ namespace ServerHub.Addons.Replication
                         e.Result = i;
 
                         //Delete Table ART01A
-                        DB.MySqlDelete("dbo_PROPOSALHEAD", "IDProposal", reader["IDProposal"].ToString());
+                        DB.MySqlDelete("dbo_ProposalHead", "IDProposal", reader["IDProposal"].ToString());
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_PROPOSALHEAD(IDProposal,NoProposal,TglProposal,Nilai,PrdPartnerD,PrdPartnerS,PrdKapD,PrdKapS,TglKembali,Referal,KodeBank,KodePartner,KodeKlien,KodeNegara,NmPartner,NmKlien,KodeKlien2,KodeNegara2,KodeJasa,KodeJenisPT,Status,StatusBDO,StatusClien,KursID,Torno,TorTgl,Tornilai,TorTglKembali,StatusTor,KursTOR,nilaiOPE,kursOPE,Periode,tglStugas)" +
+                            DB.SQL = "INSERT INTO dbo_ProposalHead(IDProposal,NoProposal,TglProposal,Nilai,PrdPartnerD,PrdPartnerS,PrdKapD,PrdKapS,TglKembali,Referal,KodeBank,KodePartner,KodeKlien,KodeNegara,NmPartner,NmKlien,KodeKlien2,KodeNegara2,KodeJasa,KodeJenisPT,Status,StatusBDO,StatusClien,KursID,Torno,TorTgl,Tornilai,TorTglKembali,StatusTor,KursTOR,nilaiOPE,kursOPE,Periode,tglStugas)" +
                                      "VALUES(@IDProposal,@NoProposal,@TglProposal,@Nilai,@PrdPartnerD,@PrdPartnerS,@PrdKapD,@PrdKapS,@TglKembali,@Referal,@KodeBank,@KodePartner,@KodeKlien,@KodeNegara,@NmPartner,@NmKlien,@KodeKlien2,@KodeNegara2,@KodeJasa,@KodeJenisPT,@Status,@StatusBDO,@StatusClien,@KursID,@Torno,@TorTgl,@Tornilai,@TorTglKembali,@StatusTor,@KursTOR,@nilaiOPE,@kursOPE,@Periode,@tglStugas)";
 
                             
@@ -371,7 +372,7 @@ namespace ServerHub.Addons.Replication
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_ART01A(FAKTUR,TGL,KONTAN,CUST,SLM,TERM,MUKA,DISC1,NDISC1,PPN,MTR,NETTO,KET,TOTAL,F_PAJAK,TGL_PAJAK,NCUST,WIL,SO,SATUAN,POST,VLT,TUKAR,JTGL,NPPN,POT,BAYAR,DEBET,KREDIT,BANK,TOTAL_DEBET_GL,TOTAL_KREDIT_GL,PPN_RATE,USERNAME,TGLINPUT,NO_KONTRAK,TGLPOTONG)" +
+                            DB.SQL = "INSERT INTO dbo_ART01A(FAKTUR,TGL,KONTAN,CUST,SLM,TERM,MUKA,DISC1,NDISC1,PPN,MTR,NETTO,KET,TOTAL,F_PAJAK,TGL_PAJAK,NCUST,WIL,SO,SATUAN,POST,VLT,TUKAR,JTGL,NPPN,POT,BAYAR,DEBET,KREDIT,BANK,TOTAL_DEBET_GL,TOTAL_KREDIT_GL,PPN_RATE,USERNAME,TGLINPUT,NO_KONTRAK,TglPotong)" +
                                      "VALUES(@FAKTUR,@TGL,@KONTAN,@CUST,@SLM,@TERM,@MUKA,@DISC1,@NDISC1,@PPN,@MTR,@NETTO,@KET,@TOTAL,@F_PAJAK,@TGL_PAJAK,@NCUST,@WIL,@SO,@SATUAN,@POST,@VLT,@TUKAR,@JTGL,@NPPN,@POT,@BAYAR,@DEBET,@KREDIT,@BANK,@TOTAL_DEBET_GL,@TOTAL_KREDIT_GL,@PPN_RATE,@USERNAME,@TGLINPUT,@NO_KONTRAK,@TGLPOTONG)";
                             DB.MySqlConnect();
                             DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
@@ -445,49 +446,141 @@ namespace ServerHub.Addons.Replication
             }
         }
 
-        public void objART01B(object sender, System.ComponentModel.DoWorkEventArgs e)
+		public void objART01B(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			try
+			{
+				DB.SqlConnect();
+				String CmdString = "SELECT * FROM AR.dbo.ART01B";
+				cmd = new SqlCommand(CmdString, DB.SqlServerConn);
+				reader = cmd.ExecuteReader();
+
+				while (reader.Read())
+				{
+					Text = "Records " + i + " From " + Max;
+					if (!String.IsNullOrEmpty(reader["Faktur"].ToString()))
+					{
+						i++;
+						e.Result = i;
+
+						//Delete Table ART01A
+						DB.MySqlDelete("dbo_ART01B", "FAKTUR", reader["Faktur"].ToString());
+						//input
+						try
+						{
+							DB.SQL = "INSERT INTO dbo_ART01B(FAKTUR,NO,BRG,HS,QTY,DISC2,NDISC2,GD,STN,WO,SJ,NoPH,BayarTahap,NilaiPH,Bayar,NOTOR)" +
+									 "VALUES(@FAKTUR,@NO,@BRG,@HS,@QTY,@DISC2,@NDISC2,@GD,@STN,@WO,@SJ,@NoPH,@BayarTahap,@NilaiPH,@Bayar,@NOTOR)";
+							DB.MySqlConnect();
+							DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
+							DB.MySqlCmd.Parameters.Add("@FAKTUR", MySqlDbType.VarChar, 255).Value = reader["Faktur"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NO", MySqlDbType.Int16).Value = reader["NO"].ToString();
+							DB.MySqlCmd.Parameters.Add("@BRG", MySqlDbType.VarChar, 255).Value = reader["BRG"].ToString();
+							DB.MySqlCmd.Parameters.Add("@HS", MySqlDbType.Double).Value = reader["HS"].ToString();
+							DB.MySqlCmd.Parameters.Add("@QTY", MySqlDbType.Double).Value = reader["QTY"].ToString();
+							DB.MySqlCmd.Parameters.Add("@DISC2", MySqlDbType.Double).Value = reader["DISC2"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NDISC2", MySqlDbType.Double).Value = reader["NDISC2"].ToString();
+							DB.MySqlCmd.Parameters.Add("@GD", MySqlDbType.VarChar, 255).Value = reader["GD"].ToString();
+							DB.MySqlCmd.Parameters.Add("@STN", MySqlDbType.VarChar, 255).Value = reader["STN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@WO", MySqlDbType.VarChar, 255).Value = reader["WO"].ToString();
+							DB.MySqlCmd.Parameters.Add("@SJ", MySqlDbType.VarChar, 255).Value = reader["SJ"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NoPH", MySqlDbType.VarChar, 255).Value = reader["NoPH"].ToString();
+							DB.MySqlCmd.Parameters.Add("@BayarTahap", MySqlDbType.VarChar, 255).Value = reader["BayarTahap"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NilaiPH", MySqlDbType.Double).Value = reader["NilaiPH"].ToString();
+							DB.MySqlCmd.Parameters.Add("@Bayar", MySqlDbType.Double).Value = reader["Bayar"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NOTOR", MySqlDbType.VarChar, 255).Value = reader["NOTOR"].ToString();
+							DB.MySqlCmd.CommandType = CommandType.Text;
+							DB.MySqlCmd.ExecuteNonQuery();
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.ToString(), "ERROR");
+						}
+						finally
+						{
+							DB.MySqlCmd.Dispose();
+							DB.MySqlServerConn.Close();
+						}
+
+						int progressPercentage = (i / Max) * 100;
+
+						(sender as BackgroundWorker).ReportProgress(progressPercentage, i);
+						Thread.Sleep(10);
+
+					}
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Error " + ex.Message);
+			}
+			finally
+			{
+				DB.SqlDisconnect();
+			}
+		}
+
+		public void objKBT01C(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             try
             {
                 DB.SqlConnect();
-                String CmdString = "SELECT * FROM AR.dbo.ART01B";
-                cmd = new SqlCommand(CmdString, DB.SqlServerConn);
+                String CmdString = "SELECT Jenis_Form,No_Bukti,Type_Transaksi,No_Faktur,No_Giro,Kode_ARAP,Status_Posting," +
+					" Relasi,Keterangan,No,Vlt,RELASI_LAWAN,FAKTUR_LAWAN," +
+					" CASE WHEN Sisa IS NULL THEN 0 ELSE Sisa END AS Sisa, " +
+					" CASE WHEN Nilai_Potong IS NULL THEN 0 ELSE Nilai_Potong END AS Nilai_Potong, " +
+					" CASE WHEN Nilai_Bayar IS NULL THEN 0 ELSE Nilai_Bayar END AS Nilai_Bayar, " +
+					" CASE WHEN Tukar IS NULL THEN 0 ELSE Tukar END AS Tukar, " +
+					" CASE WHEN Nilai_Potong_PPH23 IS NULL THEN 0 ELSE Nilai_Potong_PPH23 END AS Nilai_Potong_PPH23, " +
+					" CASE WHEN TANGGAL_FAKTUR_LAWAN IS NULL THEN GETDATE() ELSE TANGGAL_FAKTUR_LAWAN END AS TANGGAL_FAKTUR_LAWAN, " +
+					" CASE WHEN NILAI_BAYAR_LAWAN IS NULL THEN 0 ELSE NILAI_BAYAR_LAWAN END AS NILAI_BAYAR_LAWAN, " +
+					" CASE WHEN NILAI_SISA_LAWAN IS NULL THEN 0 ELSE NILAI_SISA_LAWAN END AS NILAI_SISA_LAWAN " +
+					" FROM KB.dbo.KBT01C ";
+				
+				cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
               
                 while (reader.Read())
                 {
                     Text = "Records " + i + " From " + Max;
-                    if (!String.IsNullOrEmpty(reader["Faktur"].ToString()))
+                    if (!String.IsNullOrEmpty(reader["No_Bukti"].ToString()))
                     {
                         i++;
                         e.Result = i;
-                        
-                        //Delete Table ART01A
-                        DB.MySqlDelete("dbo_ART01B", "FAKTUR", reader["Faktur"].ToString());
+
+						//Delete Table KBT01C
+						DB.MySqlDelete("dbo_KBT01C", "No_Bukti", reader["No_Bukti"].ToString());
                         //input
                         try
                         {
-                            DB.SQL = "INSERT INTO dbo_ART01B(FAKTUR,NO,BRG,HS,QTY,DISC2,NDISC2,GD,STN,WO,SJ,NoPH,BayarTahap,NilaiPH,Bayar,NOTOR)" +
-                                     "VALUES(@FAKTUR,@NO,@BRG,@HS,@QTY,@DISC2,@NDISC2,@GD,@STN,@WO,@SJ,@NoPH,@BayarTahap,@NilaiPH,@Bayar,@NOTOR)";
+                            DB.SQL = "INSERT INTO dbo_KBT01C(Jenis_Form,No_Bukti,Type_Transaksi,No_Faktur,Sisa,Nilai_Potong,Nilai_Bayar,No_Giro,Kode_ARAP,Status_Posting,Relasi,Keterangan,No,Vlt,Tukar,Nilai_Potong_PPH23,RELASI_LAWAN,FAKTUR_LAWAN,TANGGAL_FAKTUR_LAWAN,NILAI_BAYAR_LAWAN,NILAI_SISA_LAWAN)" +
+									 "VALUES(@Jenis_Form,@No_Bukti,@Type_Transaksi,@No_Faktur,@Sisa,@Nilai_Potong,@Nilai_Bayar,@No_Giro,@Kode_ARAP,@Status_Posting,@Relasi,@Keterangan,@No,@Vlt,@Tukar,@Nilai_Potong_PPH23,@RELASI_LAWAN,@FAKTUR_LAWAN,@TANGGAL_FAKTUR_LAWAN,@NILAI_BAYAR_LAWAN,@NILAI_SISA_LAWAN)";
                             DB.MySqlConnect();
                             DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
-                            DB.MySqlCmd.Parameters.Add("@FAKTUR", MySqlDbType.VarChar, 255).Value = reader["Faktur"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@NO", MySqlDbType.Int16).Value = reader["NO"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@BRG", MySqlDbType.VarChar,255).Value = reader["BRG"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@HS", MySqlDbType.Double).Value = reader["HS"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@QTY", MySqlDbType.Double).Value = reader["QTY"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@DISC2", MySqlDbType.Double).Value = reader["DISC2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@NDISC2", MySqlDbType.Double).Value = reader["NDISC2"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@GD", MySqlDbType.VarChar, 255).Value = reader["GD"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@STN", MySqlDbType.VarChar, 255).Value = reader["STN"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@WO", MySqlDbType.VarChar, 255).Value = reader["WO"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@SJ", MySqlDbType.VarChar, 255).Value = reader["SJ"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@NoPH", MySqlDbType.VarChar, 255).Value = reader["NoPH"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@BayarTahap", MySqlDbType.VarChar, 255).Value = reader["BayarTahap"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@NilaiPH", MySqlDbType.Double).Value = reader["NilaiPH"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@Bayar", MySqlDbType.Double).Value = reader["Bayar"].ToString();
-                            DB.MySqlCmd.Parameters.Add("@NOTOR", MySqlDbType.VarChar, 255).Value = reader["NOTOR"].ToString();
-                            DB.MySqlCmd.CommandType = CommandType.Text;
+                            DB.MySqlCmd.Parameters.Add("@Jenis_Form", MySqlDbType.Int16, 6).Value = reader["Jenis_Form"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@No_Bukti", MySqlDbType.VarChar,11).Value = reader["No_Bukti"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Type_Transaksi", MySqlDbType.VarChar,20).Value = reader["Type_Transaksi"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@No_Faktur", MySqlDbType.VarChar,10).Value = reader["No_Faktur"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Sisa", MySqlDbType.Double).Value = reader["Sisa"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Nilai_Potong", MySqlDbType.Double).Value = reader["Nilai_Potong"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Nilai_Bayar", MySqlDbType.Double).Value = reader["Nilai_Bayar"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@No_Giro", MySqlDbType.VarChar, 20).Value = reader["No_Giro"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Kode_ARAP", MySqlDbType.VarChar, 1).Value = reader["Kode_ARAP"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Status_Posting", MySqlDbType.VarChar, 1).Value = reader["Status_Posting"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Relasi", MySqlDbType.VarChar, 10).Value = reader["Relasi"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Keterangan", MySqlDbType.VarChar, 30).Value = reader["Keterangan"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@No", MySqlDbType.Int16, 6).Value = reader["No"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Vlt", MySqlDbType.VarChar,3).Value = reader["Vlt"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Tukar", MySqlDbType.Double).Value = reader["Tukar"].ToString();
+                            DB.MySqlCmd.Parameters.Add("@Nilai_Potong_PPH23", MySqlDbType.Double).Value = reader["Nilai_Potong_PPH23"].ToString();
+							DB.MySqlCmd.Parameters.Add("@RELASI_LAWAN", MySqlDbType.VarChar, 10).Value = reader["RELASI_LAWAN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@FAKTUR_LAWAN", MySqlDbType.VarChar, 10).Value = reader["FAKTUR_LAWAN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@TANGGAL_FAKTUR_LAWAN", MySqlDbType.VarChar).Value = reader["TANGGAL_FAKTUR_LAWAN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NILAI_BAYAR_LAWAN", MySqlDbType.Double).Value = reader["NILAI_BAYAR_LAWAN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NILAI_SISA_LAWAN", MySqlDbType.Double).Value = reader["NILAI_SISA_LAWAN"].ToString();
+
+							DB.MySqlCmd.CommandType = CommandType.Text;
                             DB.MySqlCmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -512,7 +605,7 @@ namespace ServerHub.Addons.Replication
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error " + ex.Message);
+                MessageBox.Show("Error SQL Server : " + ex.Message);
             }
             finally
             {
@@ -520,14 +613,15 @@ namespace ServerHub.Addons.Replication
             }
         }
 
-
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		
+		private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            //objPARTNER(sender, e);
-            //objKLIEN(sender, e);
-            //objPROPOSALHEAD(sender, e);
-            objART01A(sender, e);
-            //objART01B(sender,e);   
+			//this.objPARTNER(sender, e);
+			//this.objKLIEN(sender, e);
+			this.objPROPOSALHEAD(sender, e);
+			//this.objART01A(sender, e);
+			//this.objART01B(sender,e);
+			//this.objKBT01C(sender, e);   
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -541,14 +635,12 @@ namespace ServerHub.Addons.Replication
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
        
-            //if (e.UserState != null)
-            //{
+            if (e.UserState != null)
+            {
                 lblTable.Text = Text;
                 int progressPercentage = (int)((i) * 100.0 / Max);
-                //progressbar1.Value = e.ProgressPercentage;
                 progressbar1.Value = progressPercentage;
-            //}
-            
+            }
                 
         }
 

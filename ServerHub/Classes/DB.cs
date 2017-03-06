@@ -9,7 +9,8 @@ namespace ServerHub.Classes
         public static SqlConnection SqlServerConn = new SqlConnection();
         public static MySqlConnection MySqlServerConn = new MySqlConnection();
         public static string SQL;
-        //public static string MySQL;
+		
+		//public static string MySQL;
         public static SqlCommand SqlCmd;
         public static MySqlCommand MySqlCmd;
         private static string sqlserver;
@@ -22,11 +23,17 @@ namespace ServerHub.Classes
         public static string mysqluser;
         public static string sqlpassword;
         public static string mysqlpassword;
-        public static bool is_sqlconnected = false;
+		public static string group;
+		public static bool is_sqlconnected = false;
         public static bool is_mysqlconnected = false;
 
+		public static string Group
+		{
+			get { return group; }
+			set { group = value; }
+		}
 
-        public static string SqlServer
+		public static string SqlServer
         {
             get { return sqlserver; }
             set { sqlserver = value; }

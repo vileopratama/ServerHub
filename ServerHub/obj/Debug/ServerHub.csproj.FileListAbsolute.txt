@@ -23,3 +23,16 @@ D:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.csproj.GenerateResource.Cache
 D:\wampp\ServerHub\ServerHub\bin\Debug\MySql.Data.dll
 D:\wampp\ServerHub\ServerHub\bin\Debug\MySql.Data.xml
 D:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.csprojResolveAssemblyReference.cache
+C:\wampp\ServerHub\ServerHub\bin\Debug\ServerHub.exe.config
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.exe
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.pdb
+C:\wampp\ServerHub\ServerHub\bin\Debug\ServerHub.exe
+C:\wampp\ServerHub\ServerHub\bin\Debug\ServerHub.pdb
+C:\wampp\ServerHub\ServerHub\bin\Debug\MySql.Data.dll
+C:\wampp\ServerHub\ServerHub\bin\Debug\MySql.Data.xml
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.csprojResolveAssemblyReference.cache
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.Addons.DatabaseSetting.UXDatabaseSettingView.resources
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.Addons.Replication.UXReplicationView.resources
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.UxMain.resources
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.Properties.Resources.resources
+C:\wampp\ServerHub\ServerHub\obj\Debug\ServerHub.csproj.GenerateResource.Cache

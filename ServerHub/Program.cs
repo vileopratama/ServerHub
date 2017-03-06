@@ -25,7 +25,8 @@ namespace ServerHub
         static void BindingSQLServerDatabase()
         {
             INI ini = new INI(App.baseDirectory() + "/config.ini");
-            DB.SqlServer = ini.Read("SQL Server", "Server");
+			DB.Group = ini.Read("Group", "Name");
+			DB.SqlServer = ini.Read("SQL Server", "Server");
             DB.SqlPort = ini.Read("SQL Server", "Port");
             DB.SqlDatabase = ini.Read("SQL Server", "Database");
             DB.SqlUser = ini.Read("SQL Server", "User");

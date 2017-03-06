@@ -14,7 +14,8 @@ namespace ServerHub.Addons.DatabaseSetting
         private void BindingSQLServerDatabase()
         {
             INI ini = new INI(App.baseDirectory() + "/config.ini");
-            DB.SqlServer = ini.Read("SQL Server", "Server");
+			DB.Group = ini.Read("Group", "Name");
+			DB.SqlServer = ini.Read("SQL Server", "Server");
             DB.SqlPort = ini.Read("SQL Server", "Port");
             DB.SqlDatabase = ini.Read("SQL Server", "Database");
             DB.SqlUser = ini.Read("SQL Server", "User");
@@ -33,6 +34,13 @@ namespace ServerHub.Addons.DatabaseSetting
 
         private void BindingSQLServeField()
         {
+			int group;
+			if (DB.Group == "BKI")
+				group = 1;
+			else
+				group = 0; 
+
+			this.cbGroup.selectedIndex = group;
             this.txtSqlServer.Text = DB.SqlServer;
             this.txtSqlPort.Text = DB.SqlPort;
             this.txtSqlUser.Text = DB.SqlUser;
@@ -58,18 +66,39 @@ namespace ServerHub.Addons.DatabaseSetting
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            INI ini = new INI(App.baseDirectory() + "/config.ini");
-            ini.Write("SQL Server", "Server", txtSqlServer.Text);
+			string sqlServer;
+			string mysqlServer;
+			string group = cbGroup.selectedValue.ToString();
+			if (group == "BKI")
+			{
+				sqlServer = "AR_BKI";
+				mysqlServer = "k0455101_bki_finance";
+			}
+			else
+			{
+				sqlServer = "AR";
+				mysqlServer = "k0455101_kap_finance";
+			}
+
+			
+			INI ini = new INI(App.baseDirectory() + "/config.ini");
+			ini.Write("Group", "Name", group);
+
+			ini.Write("SQL Server", "Server", txtSqlServer.Text);
             ini.Write("SQL Server", "Port", txtSqlPort.Text);
-            ini.Write("SQL Server", "Database", "AR");
+            ini.Write("SQL Server", "Database", sqlServer);
             ini.Write("SQL Server", "User", txtSqlUser.Text);
             ini.Write("SQL Server", "Password", txtSqlPassword.Text);
 
             ini.Write("MySQL Server", "Server", txtMySqlServer.Text);
             ini.Write("MySQL Server", "Port", txtMySqlPort.Text);
-            ini.Write("MySQL Server", "Database", "finance");
+            ini.Write("MySQL Server", "Database", mysqlServer);
             ini.Write("MySQL Server", "User", txtMySqlUser.Text);
             ini.Write("MySQL Server", "Password", txtMySqlPassword.Text);
+
+			//binding all database configuration
+			this.BindingSQLServerDatabase();
+			this.BindingMySQLServerDatabase();
 
             MessageBox.Show("Save configuration successfully ?", "Database Configuration",
                    MessageBoxButtons.OK, MessageBoxIcon.Information);
