@@ -1,0 +1,14 @@
+C:\wampp\ServerHub\ServerHub\bin\Release\ServerHub.exe.config
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.Addons.DatabaseSetting.UXDatabaseSettingView.resources
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.Addons.Replication.UXReplicationView.resources
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.UxMain.resources
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.Properties.Resources.resources
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.csproj.GenerateResource.Cache
+C:\wampp\ServerHub\ServerHub\bin\Release\ServerHub.exe
+C:\wampp\ServerHub\ServerHub\bin\Release\ServerHub.pdb
+C:\wampp\ServerHub\ServerHub\bin\Release\Bunifu_UI_v1.52.dll
+C:\wampp\ServerHub\ServerHub\bin\Release\MySql.Data.dll
+C:\wampp\ServerHub\ServerHub\bin\Release\MySql.Data.xml
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.csprojResolveAssemblyReference.cache
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.exe
+C:\wampp\ServerHub\ServerHub\obj\Release\ServerHub.pdb
