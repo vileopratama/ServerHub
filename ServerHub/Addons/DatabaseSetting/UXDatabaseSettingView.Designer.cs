@@ -58,12 +58,13 @@
 			this.cbGroup.ForeColor = System.Drawing.Color.White;
 			this.cbGroup.Items = new string[] {
         "KAP",
-        "BKI"};
+        "BKI",
+        "KJPP"};
 			this.cbGroup.Location = new System.Drawing.Point(80, 12);
 			this.cbGroup.Name = "cbGroup";
 			this.cbGroup.NomalColor = System.Drawing.Color.Gainsboro;
 			this.cbGroup.onHoverColor = System.Drawing.Color.DarkGray;
-			this.cbGroup.selectedIndex = 0;
+			this.cbGroup.selectedIndex = -1;
 			this.cbGroup.Size = new System.Drawing.Size(469, 35);
 			this.cbGroup.TabIndex = 4;
 			// 

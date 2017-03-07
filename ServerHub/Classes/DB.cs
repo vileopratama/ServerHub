@@ -27,6 +27,20 @@ namespace ServerHub.Classes
 		public static bool is_sqlconnected = false;
         public static bool is_mysqlconnected = false;
 
+		public static string Init()
+		{
+			string init = "";
+			if (DB.Group == "BKI")
+			{
+				init = "_BKI";
+			}
+			else if (DB.Group == "KJPP")
+			{
+				init = "_KJPP";
+			}
+			return init;
+		}
+
 		public static string Group
 		{
 			get { return group; }
@@ -176,5 +190,8 @@ namespace ServerHub.Classes
 
             }
         }
+
+
+		
     }
 }

@@ -35,7 +35,9 @@ namespace ServerHub.Addons.DatabaseSetting
         private void BindingSQLServeField()
         {
 			int group;
-			if (DB.Group == "BKI")
+			if (DB.Group == "KJPP")
+				group = 2;
+			else if (DB.Group == "BKI")
 				group = 1;
 			else
 				group = 0; 
@@ -73,6 +75,11 @@ namespace ServerHub.Addons.DatabaseSetting
 			{
 				sqlServer = "AR_BKI";
 				mysqlServer = "k0455101_bki_finance";
+			}
+			else if (group == "KJPP")
+			{
+				sqlServer = "AR_KJPP";
+				mysqlServer = "k0455101_kjpp_finance";
 			}
 			else
 			{

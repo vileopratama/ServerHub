@@ -45,25 +45,33 @@ namespace ServerHub.Addons.Replication
 
             return total;
         }
-
+		
+		private void loadTable(object sender, DoWorkEventArgs e)
+		{
+			this.objPARTNER(sender, e);
+			this.objKLIEN(sender, e);
+			this.objPROPOSALHEAD(sender, e);
+			this.objART01A(sender, e);
+			this.objART01B(sender, e);
+			this.objKBT01C(sender, e);
+		}
 
         private void btnStart_Click(object sender, EventArgs e)
         {
             BackgroundWorker backgroundWorker1 = new BackgroundWorker();
             if (!backgroundWorker1.IsBusy)
             {
-                
-                //TotalRecords = this.GetTotalRecords("AR.dbo.PARTNER");
-				//TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
-				//TotalRecords += this.GetTotalRecords("AR.dbo.ProposalHead");
-				// += this.GetTotalRecords("AR.dbo.ART01A");
-				TotalRecords += this.GetTotalRecords("AR.dbo.ART01B");
-				//TotalRecords += this.GetTotalRecords("KB.dbo.KBT01C");
+				
+				TotalRecords  = this.GetTotalRecords("AR.dbo.PARTNER");
+				TotalRecords += this.GetTotalRecords("AR.dbo.KLIEN");
+				TotalRecords += this.GetTotalRecords("AR.dbo.ProposalHead");
+				TotalRecords += this.GetTotalRecords("AR" + DB.Init() + ".dbo.ART01A");
+				TotalRecords += this.GetTotalRecords("AR" + DB.Init() + ".dbo.ART01B");
+				TotalRecords += this.GetTotalRecords("KB" + DB.Init() + ".dbo.KBT01C");
 
                 Max = TotalRecords;
                 i = 0;
                 progressbar1.Value = 0;
-                //progressbar1.MaxValue = Max;
                 btnStart.Enabled = false;
                 btnStart.Text = "Wait";
                 
@@ -80,7 +88,7 @@ namespace ServerHub.Addons.Replication
             try
             {
                 DB.SqlConnect();
-                String CmdString = "SELECT * FROM AR.dbo.PARTNER";
+                String CmdString = "SELECT * FROM AR.dbo.Partner ORDER BY KodePartner ASC";
                 cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
                 
@@ -144,7 +152,7 @@ namespace ServerHub.Addons.Replication
             try
             {
                 DB.SqlConnect();
-                String CmdString = "SELECT *,CASE WHEN TGLAKTIF IS NULL THEN GETDATE() ELSE TGLAKTIF END AS TglAktif2 FROM AR.dbo.KLIEN";
+                String CmdString = "SELECT *,CASE WHEN TGLAKTIF IS NULL THEN GETDATE() ELSE TGLAKTIF END AS TglAktif2 FROM AR.dbo.KLIEN ORDER BY KodeKlien ASC";
                 cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
 
@@ -238,7 +246,7 @@ namespace ServerHub.Addons.Replication
                                    " CASE WHEN NILAI IS NULL THEN 0 ELSE NILAI END AS NILAI2, " +
                                    " CASE WHEN TORNILAI IS NULL THEN 0 ELSE TORNILAI END AS TORNILAI2 ," +
                                    " CASE WHEN NILAIOPE IS NULL THEN 0 ELSE NILAIOPE END AS NILAIOPE2 " +
-                                   " FROM AR.dbo.PROPOSALHEAD";
+								   " FROM AR.dbo.PROPOSALHEAD ORDER BY IDProposal ASC";
                 cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader(); 
 
@@ -355,8 +363,10 @@ namespace ServerHub.Addons.Replication
                 "CASE WHEN TOTAL_DEBET_GL IS NULL THEN 0 ELSE TOTAL_DEBET_GL END AS TOTAL_DEBET_GL2," +
                 "CASE WHEN TOTAL_KREDIT_GL IS NULL THEN 0 ELSE TOTAL_KREDIT_GL END AS TOTAL_KREDIT_GL2," +
                 "CASE WHEN PPN_RATE IS NULL THEN 0 ELSE PPN_RATE END AS PPN_RATE2," +
-                "CASE WHEN TGLPOTONG IS NULL THEN TGL ELSE TGLPOTONG END AS TGLPOTONG2 FROM AR.dbo.ART01A";
-                cmd = new SqlCommand(CmdString, DB.SqlServerConn);
+				"CASE WHEN TGLPOTONG IS NULL THEN TGL ELSE TGLPOTONG END AS TGLPOTONG2 " + 
+				"FROM AR" + DB.Init() + ".dbo.ART01A ORDER BY FAKTUR ASC";
+
+				cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -451,7 +461,15 @@ namespace ServerHub.Addons.Replication
 			try
 			{
 				DB.SqlConnect();
-				String CmdString = "SELECT * FROM AR.dbo.ART01B";
+				String CmdString = " SELECT FAKTUR,NO,BRG,GD,STN,WO,SJ,NoPH,NilaiPH,BayarTahap,NOTOR, " +
+					" CASE WHEN HS IS NULL THEN 0 ELSE HS END AS HS," +
+					" CASE WHEN QTY IS NULL THEN 0 ELSE QTY END AS QTY," +
+					" CASE WHEN DISC2 IS NULL THEN 0 ELSE DISC2 END AS DISC2," +
+					" CASE WHEN NDISC2 IS NULL THEN 0 ELSE NDISC2 END AS NDISC2," +					
+					" CASE WHEN NilaiPH IS NULL THEN 0 ELSE NilaiPH END as NilaiPH," +
+					" CASE WHEN Bayar IS NULL THEN 0 ELSE Bayar END AS Bayar" +
+					" FROM AR" + DB.Init() + ".dbo.ART01B ORDER BY NoPH ASC";
+
 				cmd = new SqlCommand(CmdString, DB.SqlServerConn);
 				reader = cmd.ExecuteReader();
 
@@ -464,7 +482,7 @@ namespace ServerHub.Addons.Replication
 						e.Result = i;
 
 						//Delete Table ART01A
-						DB.MySqlDelete("dbo_ART01B", "FAKTUR", reader["Faktur"].ToString());
+						DB.MySqlDelete("dbo_ART01B", "NoPH", reader["NoPH"].ToString());
 						//input
 						try
 						{
@@ -472,22 +490,22 @@ namespace ServerHub.Addons.Replication
 									 "VALUES(@FAKTUR,@NO,@BRG,@HS,@QTY,@DISC2,@NDISC2,@GD,@STN,@WO,@SJ,@NoPH,@BayarTahap,@NilaiPH,@Bayar,@NOTOR)";
 							DB.MySqlConnect();
 							DB.MySqlCmd = new MySqlCommand(DB.SQL, DB.MySqlServerConn);
-							DB.MySqlCmd.Parameters.Add("@FAKTUR", MySqlDbType.VarChar, 255).Value = reader["Faktur"].ToString();
+							DB.MySqlCmd.Parameters.Add("@FAKTUR", MySqlDbType.VarChar, 10).Value = reader["Faktur"].ToString();
 							DB.MySqlCmd.Parameters.Add("@NO", MySqlDbType.Int16).Value = reader["NO"].ToString();
 							DB.MySqlCmd.Parameters.Add("@BRG", MySqlDbType.VarChar, 255).Value = reader["BRG"].ToString();
 							DB.MySqlCmd.Parameters.Add("@HS", MySqlDbType.Double).Value = reader["HS"].ToString();
 							DB.MySqlCmd.Parameters.Add("@QTY", MySqlDbType.Double).Value = reader["QTY"].ToString();
 							DB.MySqlCmd.Parameters.Add("@DISC2", MySqlDbType.Double).Value = reader["DISC2"].ToString();
 							DB.MySqlCmd.Parameters.Add("@NDISC2", MySqlDbType.Double).Value = reader["NDISC2"].ToString();
-							DB.MySqlCmd.Parameters.Add("@GD", MySqlDbType.VarChar, 255).Value = reader["GD"].ToString();
-							DB.MySqlCmd.Parameters.Add("@STN", MySqlDbType.VarChar, 255).Value = reader["STN"].ToString();
-							DB.MySqlCmd.Parameters.Add("@WO", MySqlDbType.VarChar, 255).Value = reader["WO"].ToString();
-							DB.MySqlCmd.Parameters.Add("@SJ", MySqlDbType.VarChar, 255).Value = reader["SJ"].ToString();
-							DB.MySqlCmd.Parameters.Add("@NoPH", MySqlDbType.VarChar, 255).Value = reader["NoPH"].ToString();
-							DB.MySqlCmd.Parameters.Add("@BayarTahap", MySqlDbType.VarChar, 255).Value = reader["BayarTahap"].ToString();
+							DB.MySqlCmd.Parameters.Add("@GD", MySqlDbType.VarChar, 2).Value = reader["GD"].ToString();
+							DB.MySqlCmd.Parameters.Add("@STN", MySqlDbType.VarChar, 1).Value = reader["STN"].ToString();
+							DB.MySqlCmd.Parameters.Add("@WO", MySqlDbType.VarChar, 10).Value = reader["WO"].ToString();
+							DB.MySqlCmd.Parameters.Add("@SJ", MySqlDbType.VarChar, 10).Value = reader["SJ"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NoPH", MySqlDbType.VarChar, 100).Value = reader["NoPH"].ToString();
+							DB.MySqlCmd.Parameters.Add("@BayarTahap", MySqlDbType.VarChar, 50).Value = reader["BayarTahap"].ToString();
 							DB.MySqlCmd.Parameters.Add("@NilaiPH", MySqlDbType.Double).Value = reader["NilaiPH"].ToString();
 							DB.MySqlCmd.Parameters.Add("@Bayar", MySqlDbType.Double).Value = reader["Bayar"].ToString();
-							DB.MySqlCmd.Parameters.Add("@NOTOR", MySqlDbType.VarChar, 255).Value = reader["NOTOR"].ToString();
+							DB.MySqlCmd.Parameters.Add("@NOTOR", MySqlDbType.VarChar, 100).Value = reader["NOTOR"].ToString();
 							DB.MySqlCmd.CommandType = CommandType.Text;
 							DB.MySqlCmd.ExecuteNonQuery();
 						}
@@ -536,7 +554,7 @@ namespace ServerHub.Addons.Replication
 					" CASE WHEN TANGGAL_FAKTUR_LAWAN IS NULL THEN GETDATE() ELSE TANGGAL_FAKTUR_LAWAN END AS TANGGAL_FAKTUR_LAWAN, " +
 					" CASE WHEN NILAI_BAYAR_LAWAN IS NULL THEN 0 ELSE NILAI_BAYAR_LAWAN END AS NILAI_BAYAR_LAWAN, " +
 					" CASE WHEN NILAI_SISA_LAWAN IS NULL THEN 0 ELSE NILAI_SISA_LAWAN END AS NILAI_SISA_LAWAN " +
-					" FROM KB.dbo.KBT01C ";
+					" FROM KB" + DB.Init() + ".dbo.KBT01C ORDER BY NO";
 				
 				cmd = new SqlCommand(CmdString, DB.SqlServerConn);
                 reader = cmd.ExecuteReader();
@@ -550,7 +568,7 @@ namespace ServerHub.Addons.Replication
                         e.Result = i;
 
 						//Delete Table KBT01C
-						DB.MySqlDelete("dbo_KBT01C", "No_Bukti", reader["No_Bukti"].ToString());
+						DB.MySqlDelete("dbo_KBT01C", "No", reader["No"].ToString());
                         //input
                         try
                         {
@@ -614,14 +632,9 @@ namespace ServerHub.Addons.Replication
         }
 
 		
-		private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void backgroundWorker1_DoWork(object sender,DoWorkEventArgs e)
         {
-			//this.objPARTNER(sender, e);
-			//this.objKLIEN(sender, e);
-			//this.objPROPOSALHEAD(sender, e);
-			//this.objART01A(sender, e);
-			this.objART01B(sender,e);
-			//this.objKBT01C(sender, e);   
+			loadTable(sender,e);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -644,6 +657,9 @@ namespace ServerHub.Addons.Replication
                 
         }
 
-        
-    }
+		private void UXReplicationView_Load(object sender, EventArgs e)
+		{
+			lblGroup.Text = DB.Group;
+		}
+	}
 }
